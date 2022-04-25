@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-graceful-shutdown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wguilherme/nodejs-graceful-shutdown.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wguilherme/nodejs-graceful-shutdown/issues"
+  },
+  "homepage": "https://github.com/wguilherme/nodejs-graceful-shutdown#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
