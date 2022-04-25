@@ -9,7 +9,11 @@ async function handler(request, response) {
     response.writeHead(200)
     response.end(JSON.stringify(data))
 
-    setTimeout(() => { throw new Error('deu ruim') }, 1000)
+    // catch does not work here
+    setTimeout(() => { throw new Error('will be handled on uncaught') }, 1000)
+
+    // catch does not work here
+    Promise.reject('meu error')
 
   } catch (error) {
     console.error('Error', error.stack)
@@ -26,6 +30,14 @@ const server = createServer(handler)
   .on('listening', () => console.log('Server running at 3000'))
 
 
-  process.on('uncaughtException', (error, origin)=>{
-    console.log(`${origin} signal received. \n${error.stack}`)
-  } )
+// catch not treated errors
+// without this, the server will crash
+process.on('uncaughtException', (error, origin) => {
+  console.log(`${origin} signal received. \n${error.stack}`)
+})
+
+// catch unhandled promise rejections
+// without this, the server will throw a warning
+process.on('unhandledRejection', (error) => {
+  console.log(`\nunhandledRejection signal received. \n${error}`)
+})
