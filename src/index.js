@@ -41,3 +41,33 @@ process.on('uncaughtException', (error, origin) => {
 process.on('unhandledRejection', (error) => {
   console.log(`\nunhandledRejection signal received. \n${error}`)
 })
+
+
+// graceful shutdown SIGINT -> Ctrl+C
+process.on('exit', (code) => {
+  console.log('\nexit signal received', code)
+  process.exit(0)
+})
+
+// graceful shutdown SIGINT -> Ctrl+C
+process.on('SIGINT', (code) => {
+  console.log('\signit received!', code)
+  process.exit(0)
+})
+
+
+// graceful shutdown SIGTERM -> Ctrl+C
+process.on('SIGTERM', (code) => {
+  console.log('\sigterm received!', code)
+  process.exit(0)
+})
+
+// graceful shutdown SIGINT -> Ctrl+C
+// process.on('SIGTERM', () => {
+//   console.log('\nreceived SIGTERM')
+//   server.close(() => {
+//     console.log('\nserver closed')
+//     process.exit(0)
+//   })
+// })
+
