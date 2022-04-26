@@ -11,4 +11,7 @@ ps aux | grep nodemon && index.js
 //kill by process id
 kill <id>
 
+//see application running at port
+lsof -i :<port>
+
 ```

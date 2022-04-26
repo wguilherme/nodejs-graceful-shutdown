@@ -43,26 +43,29 @@ process.on('unhandledRejection', (error) => {
 })
 
 
-// graceful shutdown SIGINT -> Ctrl+C
-process.on('exit', (code) => {
-  console.log('\nexit signal received', code)
-  process.exit(0)
-})
+// graceful shutdown
+function gracefulShutdown(event) {
+  return (code) => {
+    console.log(`${event} received with code ${code}`)
 
-// graceful shutdown SIGINT -> Ctrl+C
-process.on('SIGINT', (code) => {
-  console.log('\signit received!', code)
-  process.exit(0)
-})
+    // close server
+    // clients already connected can still use the server and finish their requests
+    server.close(() => {
+      console.log('http server closed')
+      console.log('db connection closed')
+      process.exit(code)
+    }
+    )
+  }
+}
+
+// SIGINT -> Ctrl+C in terminal -> multi-platform
+process.on('SIGINT', gracefulShutdown('SIGINT'))
+// SIGTERM -> kill command
+process.on('SIGTERM', gracefulShutdown('SIGTERM'))
 
 
-// graceful shutdown SIGTERM -> Ctrl+C
-process.on('SIGTERM', (code) => {
-  console.log('\sigterm received!', code)
-  process.exit(0)
-})
-
-// graceful shutdown SIGINT -> Ctrl+C
+// SIGINT -> Ctrl+C
 // process.on('SIGTERM', () => {
 //   console.log('\nreceived SIGTERM')
 //   server.close(() => {
